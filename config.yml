@@ -1,0 +1,11 @@
+env: dev
+
+#db
+database:
+  host: root:@tcp(localhost:3306)/papertrader?parseTime=true&loc=Asia%2FKolkata
+  driver: mysql
+
+logging:
+  default:
+    file: log/backoffice.log
+    level: info

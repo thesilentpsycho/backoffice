@@ -2,9 +2,10 @@ package main
 
 import (
 	"flag"
-	"fmt"
+	"go.uber.org/zap"
 	"papertrader.io/backoffice/config"
 	"papertrader.io/backoffice/infra"
+	"papertrader.io/backoffice/logging"
 	"papertrader.io/backoffice/repository"
 )
 
@@ -14,6 +15,11 @@ func main() {
 	flag.Parse()
 	configuration := config.Loadconfig(configFilePath)
 
+	logger := logging.InitLogger(configuration)
+	defer logger.Sync()
+
+	undo := zap.ReplaceGlobals(logger)
+	defer undo()
 	dbConn := infra.DbConn(configuration)
 	minuteDataRepo := repository.NewMinuteDataRepo(dbConn)
 
@@ -21,6 +27,6 @@ func main() {
 	if err != nil {
 		return
 	}
-	fmt.Println(len(candles))
+	zap.L().Info("Number of candles received : " , zap.Int("count", len(candles)))
 	return
 }

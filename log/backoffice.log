@@ -1,0 +1,7 @@
+2020-05-13T01:39:08.088+0530	INFO	infra/dbConnManager.go:26	ping success
+2020-05-13T01:39:29.545+0530	INFO	backoffice/main.go:30	Number of candles received : 	{"count": 483261}
+2020-05-13T01:41:52.785+0530	INFO	infra/dbConnManager.go:26	ping success
+2020-05-13T01:41:54.299+0530	INFO	backoffice/main.go:30	Number of candles received : 	{"count": 483261}
+2020-05-13T01:42:29.058+0530	INFO	infra/dbConnManager.go:20	pinging database...
+2020-05-13T01:42:29.059+0530	INFO	infra/dbConnManager.go:25	ping success
+2020-05-13T01:42:30.395+0530	INFO	backoffice/main.go:30	Number of candles received : 	{"count": 483261}

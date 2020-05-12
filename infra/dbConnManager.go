@@ -1,9 +1,9 @@
 package infra
 
 import (
-	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
+	"go.uber.org/zap"
 	"papertrader.io/backoffice/config"
 	"time"
 )
@@ -17,13 +17,12 @@ func DbConn(config *config.GeneralConfig) (db *sqlx.DB) {
 	db.SetMaxIdleConns(0)
 
 	//try ping
-	fmt.Println("pinging database...")
+	zap.L().Info("pinging database...")
 	err = db.Ping()
 	if err != nil {
-		fmt.Println("Connection could not be established with db")
-		panic(err.Error())
+		zap.L().Fatal("Connection could not be established with db")
 	} else {
-		fmt.Println("success")
+		zap.L().Info("ping success")
 	}
 	return db
 }

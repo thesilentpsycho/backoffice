@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"fmt"
 	"github.com/jmoiron/sqlx"
+	"go.uber.org/zap"
 	"papertrader.io/backoffice/dao"
 )
 
@@ -25,7 +25,7 @@ func (r *minuteDataRepo) GetAll(scripId string) ([]dao.Candle, error) {
 	query := "SELECT open, high, low, close, volume, timestamp FROM minute_data where scrip_id = ?"
 	result, err := r.dbConn.Queryx(query, scripId)
 	if err != nil {
-		fmt.Println(err.Error())
+		zap.L().Error(err.Error())
 		return candles, err
 	}
 
@@ -33,7 +33,7 @@ func (r *minuteDataRepo) GetAll(scripId string) ([]dao.Candle, error) {
 		var candle dao.Candle
 		scanErr := result.StructScan(&candle)
 		if scanErr != nil {
-			fmt.Println("Scan error", result)
+			zap.L().Error("Scan Error:", zap.Any("result", result))
 		}
 		candles = append(candles, candle)
 	}

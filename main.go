@@ -7,6 +7,8 @@ import (
 	"papertrader.io/backoffice/infra"
 	"papertrader.io/backoffice/logging"
 	"papertrader.io/backoffice/repository"
+	"papertrader.io/backoffice/services"
+	"papertrader.io/backoffice/strategies"
 )
 
 func main() {
@@ -27,6 +29,11 @@ func main() {
 	if err != nil {
 		return
 	}
-	zap.L().Info("Number of candles received : " , zap.Int("count", len(candles)))
+	zap.L().Info("Number of candles received : ", zap.Int("count", len(candles)))
+
+	series := services.GetSeriesFromCandles(candles)
+	strategy := &strategies.SimpleStrategy{}
+	executor := services.SimpleExecutor{}
+	executor.Execute(strategy, series)
 	return
 }
